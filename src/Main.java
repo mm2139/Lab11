@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -16,29 +17,52 @@ public class Main {
 
         boolean quit = false;
 
-    do {
-        System.out.println("Options: \n" +
-                "A – Add an item to the list \n" +
-                "D – Delete an item from the list \n" +
-                "P – Print the list\n" +
-                "Q – Quit the program\n");
+        Print(ingredients);
 
-        userChoice = InputHelper.getRegEx(scan, "Choose an option from the menu.", "[AaDdPpQq]");
+        do {
+            System.out.println("Options: \n" +
+                    "A – Add an item to the list \n" +
+                    "D – Delete an item from the list \n" +
+                    "P – Print the list\n" +
+                    "Q – Quit the program\n");
 
-        if (userChoice.equalsIgnoreCase("A")) {
+            userChoice = InputHelper.getRegEx(scan, "Choose an option from the menu.", "[AaDdPpQq]");
 
-            } else if (userChoice.equalsIgnoreCase("D")) {
+            if (userChoice.equalsIgnoreCase("A")) {
+                Add(scan, ingredients);
+                Print(ingredients);
+            }
+            if (userChoice.equalsIgnoreCase("D")) {
+                Delete(scan, ingredients);
+                Print(ingredients);
+            }
+            if (userChoice.equalsIgnoreCase("P")) {
+                Print(ingredients);
+            }
+            if (userChoice.equalsIgnoreCase("Q")) {
+            quit = Quit(scan);
+            }
+    }
+    while (!quit);
 
-            } else if (userChoice.equalsIgnoreCase("P")) {
-
-            } else if (userChoice.equalsIgnoreCase("Q"));
-                quit = Quit(scan);
-    } while (!quit);
 
     }
 
-public static void Delete(Scanner scan) {
-        int num = InputHelper.getRangedInt(scan, "What is the index of the item you would like to remove from the list?", 0, ingredients.size());
+    public static void Add(Scanner scan, ArrayList list) {
+        String item = InputHelper.getNonZeroLenString("Input the item you would like to add to the list.", scan);
+        list.add(item);
+    }
+
+
+    public static void Delete(Scanner scan, ArrayList list) {
+        int index = InputHelper.getRangedInt(scan, "Input the index of the item you would like to remove in the list.", 0, list.size()-1);
+        list.remove(index);
+}
+
+    public static void Print(ArrayList list) {
+        System.out.printf("%5s | %2s", "Index", "Item\n");
+        for (int i = 0; i<list.size(); i++)
+            System.out.printf("%5s | %2s", i, list.get(i) + "\n");
     }
 
     public static boolean Quit(Scanner scan) {
